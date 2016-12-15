@@ -1,0 +1,34 @@
+[
+  {
+    "time" : 12,
+    "value" : 600
+  },
+  {
+    "time" : 11,
+    "value" : 700
+  },
+  {
+    "time" : 10,
+    "value" : 800
+  },
+  {
+    "time" : 9,
+    "value" : 900
+  },
+  {
+    "time" : 7,
+    "value" : 1000
+  },
+  {
+    "time" : 7,
+    "value" : 900
+  },
+  {
+    "time" : 9,
+    "value" : 800
+  },
+  {
+    "time" : 11,
+    "value" : 700
+  }
+]

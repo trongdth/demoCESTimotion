@@ -17,7 +17,7 @@ socket.bind("tcp://*:6002")
 
 def get_ip_address():
     try:
-        ip = netifaces.ifaddresses("en1")[netifaces.AF_INET][0]['addr']
+        ip = netifaces.ifaddresses("wlan0")[netifaces.AF_INET][0]['addr']
         if ip is not None:
             return ip
 
@@ -27,7 +27,9 @@ def get_ip_address():
 
 
 def send_ping():
-    sock.sendto(get_ip_address(), (MCAST_GRP, MCAST_PORT))
+    ip = get_ip_address()
+    sock.sendto(ip, (MCAST_GRP, MCAST_PORT))
+    return ip
 
 
 def get_param(prompt_string):
@@ -59,8 +61,8 @@ while x != ord('4'):
 
     if x == ord('1'):
         curses.endwin()
-        send_ping()
-        action = "Sent Ping successfully"
+        my_ip = send_ping()
+        action = "Sent Ping --> " + my_ip + " successfully"
 
     if x == ord('2'):
         curses.endwin()

@@ -41,7 +41,7 @@ def get_param(prompt_string):
 
 x = 0
 action = None
-while x != ord('7'):
+while x != ord('8'):
     screen = curses.initscr()
 
     screen.clear()
@@ -54,9 +54,10 @@ while x != ord('7'):
     screen.addstr(6, 4, "4 - Stop animation")
     screen.addstr(7, 4, "5 - Move to top")
     screen.addstr(8, 4, "6 - Reboot RPI")
-    screen.addstr(9, 4, "7 - Exit")
+    screen.addstr(9, 4, "7 - Hard reset")
+    screen.addstr(10, 4, "8 - Exit")
     if action is not None:
-        screen.addstr(10, 4, str(action))
+        screen.addstr(11, 4, str(action))
     screen.refresh()
     x = screen.getch()
 
@@ -96,6 +97,11 @@ while x != ord('7'):
         socket.send("SMART_DESK reboot")
 
     elif x == ord('7'):
+        curses.endwin()
+        action = "Hard reset"
+        socket.send("SMART_DESK reset")
+
+    elif x == ord('8'):
         curses.endwin()
 
 curses.endwin()

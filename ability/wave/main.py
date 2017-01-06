@@ -15,6 +15,7 @@ class Wave(object):
     CHANGED = "change"
     TOP = "top"
     REBOOT = "reboot"
+    RESET = "reset"
     state = STOP
     arr_anim_1 = None
     arr_anim_2 = None
@@ -111,6 +112,12 @@ class Wave(object):
                                 if self.state != self.REBOOT:
                                     self.state = self.REBOOT
                                 os.system("reboot")
+
+                            elif self.RESET in string:
+                                if self.state != self.RESET:
+                                    self.state = self.RESET
+                                    self.tmr.stop()
+                                self.desk_control.hard_reset()
 
                         except Exception as ex:
                             print str(ex)

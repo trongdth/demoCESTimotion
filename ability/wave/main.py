@@ -105,7 +105,7 @@ class Wave(object):
                             elif self.TOP in string:
                                 if self.state != self.TOP:
                                     self.state = self.TOP
-                                self.desk_control.set_height(1280)
+                                self.desk_control.stand_up_and_sit_down(0x09)
 
                             elif self.REBOOT in string:
                                 if self.state != self.REBOOT:
@@ -181,9 +181,9 @@ class ZMQTimerClass(threading.Thread):
         self.interrupt = True
         self.count = 0
         self.desk_control.stop()
-        time.sleep(0.2)
+        time.sleep(1)
         self.desk_control.down()
-        time.sleep(0.2)
+        time.sleep(1)
         self.desk_control.down()
 
 

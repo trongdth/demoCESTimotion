@@ -35,6 +35,9 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/_ext/32bc8d62/Uart.o \
+	${OBJECTDIR}/_ext/4fcbe82a/ZmqReplier.o \
+	${OBJECTDIR}/_ext/4fcbe82a/iZmq.o \
 	${OBJECTDIR}/_ext/8e401875/Desk.o \
 	${OBJECTDIR}/_ext/aff35550/AutonomousCommFrame.o \
 	${OBJECTDIR}/_ext/aff35550/TimboxCommFrame.o \
@@ -66,6 +69,21 @@ LDLIBSOPTIONS=
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/timotionv1: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/timotionv1 ${OBJECTFILES} ${LDLIBSOPTIONS}
+
+${OBJECTDIR}/_ext/32bc8d62/Uart.o: ../../../../../../../ws/Linux/myLib/Library/src/COMMUNICATION/Uart.cpp
+	${MKDIR} -p ${OBJECTDIR}/_ext/32bc8d62
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/32bc8d62/Uart.o ../../../../../../../ws/Linux/myLib/Library/src/COMMUNICATION/Uart.cpp
+
+${OBJECTDIR}/_ext/4fcbe82a/ZmqReplier.o: ../../../../../../../ws/Linux/myLib/Library/src/ZMQ/ZmqReplier.cpp
+	${MKDIR} -p ${OBJECTDIR}/_ext/4fcbe82a
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/4fcbe82a/ZmqReplier.o ../../../../../../../ws/Linux/myLib/Library/src/ZMQ/ZmqReplier.cpp
+
+${OBJECTDIR}/_ext/4fcbe82a/iZmq.o: ../../../../../../../ws/Linux/myLib/Library/src/ZMQ/iZmq.cpp
+	${MKDIR} -p ${OBJECTDIR}/_ext/4fcbe82a
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/4fcbe82a/iZmq.o ../../../../../../../ws/Linux/myLib/Library/src/ZMQ/iZmq.cpp
 
 ${OBJECTDIR}/_ext/8e401875/Desk.o: /home/thanh/ws/Linux/myLib/Library/src/Desk.cpp
 	${MKDIR} -p ${OBJECTDIR}/_ext/8e401875

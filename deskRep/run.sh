@@ -21,7 +21,6 @@ if [ "$a" = "/dev/ttyUSB0" ] ; then
 fi
 # 
 dataFile="data.dat"
-libFile="/usr/lib/libiComm.so"
 os="none"
 #Detect which board to run
 if uname -m |grep x86_64 ; then
@@ -40,15 +39,6 @@ if [ -f "$dataFile" ] ; then
 	#Timotion Control Box Detected
 	then
 		echo "Selected Timotion Box"
-		file="/usr/lib/libiComm.so"
-		#Check if the Library id copied to the /usr/lib
-		if [ -f "$libFile" ]
-		then
-		    	echo "$libFile  existed."
-		else
-		    	echo  "copied Libs/$os/libiComm.so to /usr/lib."
-		    	sudo cp Libs/$os/libiComm.so /usr/lib
-		fi
 		if [ -f "TimotionV1/user/$os/deskrep" ] ; then
 			sudo chmod +x  TimotionV1/user/$os/deskrep
 			./TimotionV1/user/$os/deskrep

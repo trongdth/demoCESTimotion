@@ -26,6 +26,9 @@
       <itemPath>/home/thanh/ws/Linux/myLib/Library/src/Device/TimboxCommFrame.c</itemPath>
       <itemPath>/home/thanh/ws/Linux/myLib/Library/src/TIMER/Timer.cpp</itemPath>
       <itemPath>/home/thanh/ws/Linux/myLib/Library/src/TimotionController.cpp</itemPath>
+      <itemPath>../../../../../../../ws/Linux/myLib/Library/src/COMMUNICATION/Uart.cpp</itemPath>
+      <itemPath>../../../../../../../ws/Linux/myLib/Library/src/ZMQ/ZmqReplier.cpp</itemPath>
+      <itemPath>../../../../../../../ws/Linux/myLib/Library/src/ZMQ/iZmq.cpp</itemPath>
       <itemPath>user/src/main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -89,7 +92,6 @@
             <linkerLibStdlibItem>PosixThreads</linkerLibStdlibItem>
             <linkerLibStdlibItem>DynamicLinking</linkerLibStdlibItem>
             <linkerOptionItem>`pkg-config --libs libzmq`</linkerOptionItem>
-            <linkerLibLibItem>iComm</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
@@ -116,6 +118,21 @@
       <item path="../../../../../../../ws/Linux/myLib/Library/inc/SmartDesk/TimotionController.hpp"
             ex="false"
             tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../../../../../ws/Linux/myLib/Library/src/COMMUNICATION/Uart.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../../../../../ws/Linux/myLib/Library/src/ZMQ/ZmqReplier.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../../../../../ws/Linux/myLib/Library/src/ZMQ/iZmq.cpp"
+            ex="false"
+            tool="1"
             flavor2="0">
       </item>
       <item path="/home/thanh/aos/system/os_manager/smartdesk/deskApp/TimotionV1/user/data.dat"
@@ -198,6 +215,21 @@
             tool="3"
             flavor2="0">
       </item>
+      <item path="../../../../../../../ws/Linux/myLib/Library/src/COMMUNICATION/Uart.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../../../../../ws/Linux/myLib/Library/src/ZMQ/ZmqReplier.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../../../../../ws/Linux/myLib/Library/src/ZMQ/iZmq.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
       <item path="/home/thanh/aos/system/os_manager/smartdesk/deskApp/TimotionV1/user/data.dat"
             ex="false"
             tool="3"
@@ -265,7 +297,6 @@
             <linkerLibStdlibItem>PosixThreads</linkerLibStdlibItem>
             <linkerLibStdlibItem>DynamicLinking</linkerLibStdlibItem>
             <linkerOptionItem>`pkg-config --libs libzmq`</linkerOptionItem>
-            <linkerLibLibItem>iComm</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
@@ -292,6 +323,21 @@
       <item path="../../../../../../../ws/Linux/myLib/Library/inc/SmartDesk/TimotionController.hpp"
             ex="false"
             tool="3"
+            flavor2="0">
+      </item>
+      <item path="../../../../../../../ws/Linux/myLib/Library/src/COMMUNICATION/Uart.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../../../../../ws/Linux/myLib/Library/src/ZMQ/ZmqReplier.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../../../../../../../ws/Linux/myLib/Library/src/ZMQ/iZmq.cpp"
+            ex="false"
+            tool="1"
             flavor2="0">
       </item>
       <item path="/home/thanh/aos/system/os_manager/smartdesk/deskApp/TimotionV1/user/data.dat"

@@ -35,6 +35,9 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/_ext/32bc8d62/Uart.o \
+	${OBJECTDIR}/_ext/4fcbe82a/ZmqReplier.o \
+	${OBJECTDIR}/_ext/4fcbe82a/iZmq.o \
 	${OBJECTDIR}/_ext/8e401875/Desk.o \
 	${OBJECTDIR}/_ext/aff35550/AutonomousCommFrame.o \
 	${OBJECTDIR}/_ext/aff35550/TimboxCommFrame.o \
@@ -57,7 +60,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-lpthread -ldl `pkg-config --libs libzmq` -liComm  
+LDLIBSOPTIONS=-lpthread -ldl `pkg-config --libs libzmq`  
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
@@ -66,6 +69,21 @@ LDLIBSOPTIONS=-lpthread -ldl `pkg-config --libs libzmq` -liComm
 user/RPI/deskrep: ${OBJECTFILES}
 	${MKDIR} -p user/RPI
 	arm-linux-gnueabihf-g++ -o user/RPI/deskrep ${OBJECTFILES} ${LDLIBSOPTIONS}
+
+${OBJECTDIR}/_ext/32bc8d62/Uart.o: ../../../../../../../ws/Linux/myLib/Library/src/COMMUNICATION/Uart.cpp
+	${MKDIR} -p ${OBJECTDIR}/_ext/32bc8d62
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -DSERIAL_DEBUG -I/home/thanh/ws/Linux/myLib/Library/inc -I/home/thanh/ws/hal_pic_st_ti/inc `pkg-config --cflags libzmq` -std=c++11  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/32bc8d62/Uart.o ../../../../../../../ws/Linux/myLib/Library/src/COMMUNICATION/Uart.cpp
+
+${OBJECTDIR}/_ext/4fcbe82a/ZmqReplier.o: ../../../../../../../ws/Linux/myLib/Library/src/ZMQ/ZmqReplier.cpp
+	${MKDIR} -p ${OBJECTDIR}/_ext/4fcbe82a
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -DSERIAL_DEBUG -I/home/thanh/ws/Linux/myLib/Library/inc -I/home/thanh/ws/hal_pic_st_ti/inc `pkg-config --cflags libzmq` -std=c++11  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/4fcbe82a/ZmqReplier.o ../../../../../../../ws/Linux/myLib/Library/src/ZMQ/ZmqReplier.cpp
+
+${OBJECTDIR}/_ext/4fcbe82a/iZmq.o: ../../../../../../../ws/Linux/myLib/Library/src/ZMQ/iZmq.cpp
+	${MKDIR} -p ${OBJECTDIR}/_ext/4fcbe82a
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -DSERIAL_DEBUG -I/home/thanh/ws/Linux/myLib/Library/inc -I/home/thanh/ws/hal_pic_st_ti/inc `pkg-config --cflags libzmq` -std=c++11  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/_ext/4fcbe82a/iZmq.o ../../../../../../../ws/Linux/myLib/Library/src/ZMQ/iZmq.cpp
 
 ${OBJECTDIR}/_ext/8e401875/Desk.o: /home/thanh/ws/Linux/myLib/Library/src/Desk.cpp
 	${MKDIR} -p ${OBJECTDIR}/_ext/8e401875

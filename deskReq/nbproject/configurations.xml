@@ -77,7 +77,6 @@
           <linkerLibItems>
             <linkerLibStdlibItem>PosixThreads</linkerLibStdlibItem>
             <linkerOptionItem>`pkg-config --libs libzmq`</linkerOptionItem>
-            <linkerLibLibItem>iComm</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>

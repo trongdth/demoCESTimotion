@@ -54,7 +54,7 @@ FFLAGS=-m64
 ASFLAGS=--64
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-lpthread `pkg-config --libs libzmq` -liComm  
+LDLIBSOPTIONS=-lpthread `pkg-config --libs libzmq`  
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}

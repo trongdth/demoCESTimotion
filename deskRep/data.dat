@@ -1,7 +1,7 @@
-MinHeight:570
+MinHeight:380
 MaxHeight:1350 
-SitPos:710
-StandPos:900
+SitPos:740
+StandPos:810
 SerialDevice:/dev/ttyS0
 ZmqIPC:ipc:///tmp/desk_control:9999
 Controller:Timotion

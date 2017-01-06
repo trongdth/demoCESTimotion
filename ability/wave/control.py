@@ -17,7 +17,8 @@ socket.bind("tcp://*:6002")
 
 def get_ip_address():
     try:
-        ip = netifaces.ifaddresses("wlan0")[netifaces.AF_INET][0]['addr']
+        # ip = netifaces.ifaddresses("wlan0")[netifaces.AF_INET][0]['addr']
+        ip = netifaces.ifaddresses("en1")[netifaces.AF_INET][0]['addr']
         if ip is not None:
             return ip
 
@@ -27,9 +28,7 @@ def get_ip_address():
 
 
 def send_ping():
-    ip = get_ip_address()
-    sock.sendto(ip, (MCAST_GRP, MCAST_PORT))
-    return ip
+    sock.sendto(get_ip_address(), (MCAST_GRP, MCAST_PORT))
 
 
 def get_param(prompt_string):
@@ -42,50 +41,61 @@ def get_param(prompt_string):
 
 x = 0
 action = None
-while x != ord('4'):
+while x != ord('7'):
     screen = curses.initscr()
 
     screen.clear()
     screen.border(0)
     screen.addstr(1, 2, "Please enter a number...")
-    screen.addstr(2, 4, "1 - Ping")
-    screen.addstr(3, 4, "2 - Start animation 1")
-    screen.addstr(4, 4, "3 - Start animation 2")
-    screen.addstr(5, 4, "4 - Start animation 3")
-    screen.addstr(6, 4, "5 - Stop animation")
-    screen.addstr(7, 4, "6 - Exit")
+    screen.addstr(2, 4, "0 - Ping")
+    screen.addstr(3, 4, "1 - Start animation 1")
+    screen.addstr(4, 4, "2 - Start animation 2")
+    screen.addstr(5, 4, "3 - Start animation 3")
+    screen.addstr(6, 4, "4 - Stop animation")
+    screen.addstr(7, 4, "5 - Move to top")
+    screen.addstr(8, 4, "6 - Reboot RPI")
+    screen.addstr(9, 4, "7 - Exit")
     if action is not None:
-        screen.addstr(8, 4, str(action))
+        screen.addstr(10, 4, str(action))
     screen.refresh()
     x = screen.getch()
 
-    if x == ord('1'):
+    if x == ord('0'):
         curses.endwin()
-        my_ip = send_ping()
-        action = "Sent Ping --> " + my_ip + " successfully"
+        send_ping()
+        action = "Sent Ping successfully"
 
-    if x == ord('2'):
+    elif x == ord('1'):
         curses.endwin()
         socket.send("SMART_DESK start_1")
         action = "Sent anim 1 successfully"
 
-    if x == ord('3'):
+    elif x == ord('2'):
         curses.endwin()
         socket.send("SMART_DESK start_2")
         action = "Sent anim 2 successfully"
 
-    if x == ord('4'):
+    elif x == ord('3'):
         curses.endwin()
         socket.send("SMART_DESK start_3")
         action = "Sent anim 3 successfully"
 
-    if x == ord('5'):
+    elif x == ord('4'):
         curses.endwin()
         action = "Set stop successfully"
         socket.send("SMART_DESK stop")
 
-    if x == ord('6'):
+    elif x == ord('5'):
         curses.endwin()
-        break
+        action = "Set top successfully"
+        socket.send("SMART_DESK top")
+
+    elif x == ord('6'):
+        curses.endwin()
+        action = "Reboot all boards"
+        socket.send("SMART_DESK reboot")
+
+    elif x == ord('7'):
+        curses.endwin()
 
 curses.endwin()

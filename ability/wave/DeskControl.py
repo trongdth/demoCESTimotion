@@ -37,7 +37,7 @@ class DeskControl(object):
 
             socket_req = c.socket(zmq.REQ)
             socket_req.connect(url_socket)
-            socket_req.setsockopt(zmq.RCVTIMEO, 500)
+            socket_req.setsockopt(zmq.RCVTIMEO, 100)
 
             print "desk client control url socket: " + url_socket
             self._socket_req = socket_req

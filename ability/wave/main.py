@@ -5,12 +5,16 @@ import threading
 import json
 import zmq
 import time
+import os
 from DeskControl import DeskControl
 
 
 class Wave(object):
     START = "start"
     STOP = "stop"
+    CHANGED = "change"
+    TOP = "top"
+    REBOOT = "reboot"
     state = STOP
     arr_anim_1 = None
     arr_anim_2 = None
@@ -20,6 +24,8 @@ class Wave(object):
     zmq_connected = False
     context = zmq.Context()
     socket = context.socket(zmq.SUB)
+    tmr = None
+    desk_control = DeskControl()
 
     def __init__(self):
         super(Wave, self).__init__()
@@ -47,7 +53,13 @@ class Wave(object):
         return False
 
     def start_receive_data(self):
-        tmr = None
+        if self.tmr is not None:
+            self.tmr.stop()
+
+        self.tmr = ZMQTimerClass(self.desk_control)
+        self.tmr.start()
+        print "init ZMQTimerClass"
+
         while True:
             if self.is_need_connect_socket():
                 self.zmq_connected = True
@@ -56,36 +68,58 @@ class Wave(object):
                 self.socket.setsockopt(zmq.SUBSCRIBE, topicfilter)
 
                 print 'create zmq socket successfully'
+                self.state = self.STOP
+
                 while True:
-                    string = self.socket.recv()
-                    if self.START in string:
-                        if self.state != self.START:
-                            self.state = self.START
+                    try:
+                        string = self.socket.recv(zmq.NOBLOCK)
+                    except zmq.ZMQError:
+                        time.sleep(0.1)
+                        if self.state == self.CHANGED:
+                            print 'restart all'
+                            break
+                    else:
+                        try:
+                            if self.START in string:
+                                if self.state != self.START:
+                                    self.state = self.START
 
-                            if '1' in string:
-                                print 'start anim 1'
-                                tmr = ZMQTimerClass(self.arr_anim_1)
+                                    if '1' in string:
+                                        print 'start anim 1'
+                                        self.tmr.update_actions(self.arr_anim_1)
 
-                            elif '2' in string:
-                                print 'start anim 2'
-                                tmr = ZMQTimerClass(self.arr_anim_2)
+                                    elif '2' in string:
+                                        print 'start anim 2'
+                                        self.tmr.update_actions(self.arr_anim_2)
 
-                            elif '3' in string:
-                                print 'start anim 3'
-                                tmr = ZMQTimerClass(self.arr_anim_3)
+                                    elif '3' in string:
+                                        print 'start anim 3'
+                                        self.tmr.update_actions(self.arr_anim_3)
 
-                            tmr.start()
+                            elif self.STOP in string:
+                                if self.state != self.STOP:
+                                    self.state = self.STOP
+                                    print 'receive stop animation'
+                                self.tmr.stop()
 
-                    elif self.STOP in string:
-                        if self.state != self.STOP:
-                            self.state = self.STOP
-                            print 'stop'
-                            tmr.stop()
+                            elif self.TOP in string:
+                                if self.state != self.TOP:
+                                    self.state = self.TOP
+                                self.desk_control.set_height(1280)
 
+                            elif self.REBOOT in string:
+                                if self.state != self.REBOOT:
+                                    self.state = self.REBOOT
+                                os.system("reboot")
+
+                        except Exception as ex:
+                            print str(ex)
             time.sleep(0.5)
 
     def on_receive_server_ip(self, ip):
         print 'received server ip = ' + ip
+        if self.server_ip != ip and self.server_ip is not None:
+            self.state = self.CHANGED
         self.zmq_connected = False
         self.server_ip = ip
 
@@ -112,27 +146,38 @@ class PingTimerClass(threading.Thread):
 class ZMQTimerClass(threading.Thread):
     interrupt = False
     arr = None
-    desk_control = DeskControl()
+    desk_control = None
+    count = 0
 
-    def __init__(self, arr_actions):
+    def __init__(self, control):
         threading.Thread.__init__(self)
-        self.event = threading.Event()
+        self.desk_control = control
+
+    def update_actions(self, arr_actions):
         self.arr = arr_actions
         self.count = len(arr_actions)
+        self.interrupt = False
 
     def run(self):
-        while self.count > 0 and not self.event.is_set():
-            data = self.arr[len(self.arr) - self.count]
-            self.event.wait(data["time"])
-            if not self.interrupt:
-                self.desk_control.set_height(data["value"])
-                self.count -= 1
-                if self.count == 0:
-                    self.count = len(self.arr)
+        while True:
+            if self.count > 0:
+                data = self.arr[len(self.arr) - self.count]
+                time.sleep(data["time"])
+                if not self.interrupt:
+                    self.desk_control.set_height(data["value"])
+                    self.count -= 1
+                    if self.count == 0:
+                        self.count = len(self.arr)
+            else:
+                time.sleep(0.2)
 
     def stop(self):
-        self.event.set()
         self.interrupt = True
+        self.count = 0
+        self.desk_control.stop()
+        time.sleep(0.2)
+        self.desk_control.down()
+        time.sleep(0.2)
         self.desk_control.down()
 
 
@@ -144,13 +189,14 @@ def get_default_gateway():
 
 def get_ip_address():
     try:
-        #ip = netifaces.ifaddresses("wlan0")[netifaces.AF_INET][0]['addr']
+        # ip = netifaces.ifaddresses("wlan0")[netifaces.AF_INET][0]['addr']
         ip = netifaces.ifaddresses("eth0")[netifaces.AF_INET][0]['addr']
+        # ip = netifaces.ifaddresses("en1")[netifaces.AF_INET][0]['addr']
         if ip is not None:
             return ip
 
     except Exception as ex:
-        print "Cannot get address of wlan0 --> " + str(ex)
+        print "Cannot get address of eth0 --> " + str(ex)
     return None
 
 if __name__ == '__main__':

@@ -161,10 +161,16 @@ class ZMQTimerClass(threading.Thread):
     def run(self):
         while True:
             if self.count > 0:
-                data = self.arr[len(self.arr) - self.count]
+                index = len(self.arr) - self.count
+                data = self.arr[index]
                 time.sleep(data["time"])
                 if not self.interrupt:
-                    self.desk_control.set_height(data["value"])
+                    self.desk_control.stop()
+                    time.sleep(0.2)
+                    if index == 0:
+                        self.desk_control.stand_up_and_sit_down(0x09)
+                    else:
+                        self.desk_control.stand_up_and_sit_down(0x07)
                     self.count -= 1
                     if self.count == 0:
                         self.count = len(self.arr)

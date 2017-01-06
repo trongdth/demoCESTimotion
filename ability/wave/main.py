@@ -166,7 +166,7 @@ class ZMQTimerClass(threading.Thread):
                 time.sleep(data["time"])
                 if not self.interrupt:
                     self.desk_control.stop()
-                    time.sleep(0.2)
+                    time.sleep(1)
                     if index == 0:
                         self.desk_control.stand_up_and_sit_down(0x09)
                     else:
